@@ -36,10 +36,11 @@ def get_requirements_list()->List[str]:
     
     
     with open(REQUIREMENTS_FILENAME) as requirements_file:
-        return requirements_file.readlines().remove("-e .")
+        return requirements_file.readlines()
 
 
-
+packages_list = get_requirements_list()
+packages_list.remove("-e .\n")
 
 
 setup(
@@ -51,7 +52,7 @@ setup(
     packages=find_packages(),
     license=LICENSE,
     platforms=PLATFORMS,
-    install_requires=get_requirements_list()
+    install_requires=packages_list
 
 )
 
