@@ -130,5 +130,6 @@ dmypy.json
 
 
 # My Files
-Dockerfile.heroku
+# Dockerfile.heroku
+info.txt
 
