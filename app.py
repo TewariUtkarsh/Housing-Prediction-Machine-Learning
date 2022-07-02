@@ -9,7 +9,7 @@ CORS(app)
 @app.route("/", methods=['POST', 'GET'])
 @cross_origin()
 def index():
-    return "Starting Machine Learning Project"
+    return "CI/CD Pipeline for our Project has been established"
 
 
 if __name__ == '__main__':
@@ -17,4 +17,3 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-    
