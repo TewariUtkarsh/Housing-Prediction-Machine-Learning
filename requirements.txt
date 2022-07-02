@@ -51,4 +51,4 @@ Werkzeug==0.16.1
 wincertstore==0.2
 xgboost==0.90
 zipp==2.0.1
-
+-e .
