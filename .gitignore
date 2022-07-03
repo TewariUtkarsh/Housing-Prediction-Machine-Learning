@@ -133,4 +133,8 @@ dmypy.json
 # Dockerfile.heroku
 info.txt
 test.py
-
+housing/config
+housing/entity
+housing/exception_handler
+housing/logger
+housing/pipeline
