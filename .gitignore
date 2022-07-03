@@ -133,7 +133,7 @@ dmypy.json
 # Dockerfile.heroku
 info.txt
 test.py
-housing/entity
 housing/exception_handler
 housing/logger
 housing/pipeline
+
