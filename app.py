@@ -17,7 +17,7 @@ def index():
 
     try: 
         raise Exception("We are testing custom excecption")
-
+        # print(3/0)
     except Exception as e:
         housing = HousingException(e, sys)
         logging.info(housing.error_message)

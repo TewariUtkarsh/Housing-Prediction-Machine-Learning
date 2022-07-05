@@ -30,8 +30,18 @@ class HousingException(Exception):
 
 
     def __str__(self) -> str:
+        """
+        Prints the error message associated with the object created. Used for getting better understanding of code.
+
+        E.g.: print(Demo())
+        """
         return self.error_message
 
     
     def __repr__(self) -> str:
+        """
+        Object representation. Used for getting better understanding of code.
+
+        E.g.: Demo()
+        """
         return HousingException.__name__.str()
