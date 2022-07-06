@@ -1,6 +1,9 @@
 from collections import namedtuple
 
 
+TrainingPipelineConfig = namedtuple("TrainingPipelineConfig",
+["artifact_dir"])
+
 DataIngestionConfig = namedtuple("DataIngestionConfig", 
 ["dataset_download_url", "tgz_download_dir", "raw_data_dir", "ingested_train_dir", "ingested_test_dir"])
 
@@ -13,5 +16,9 @@ DataTransformationConfig = namedtuple("DataTransformationConfig",
 ModelTrainerConfig = namedtuple("ModelTrainerConfig",
 ["train_model_file_path", "base_accuracy"])
 
+ModelEvaluationConfig = namedtuple("ModelEvaluationConfig",
+["model_evaluation_file_path", "time_stamp"])
+
 ModelPusherConfig = namedtuple("ModelPusherConfig",
 ["export_dir_path"])
+
