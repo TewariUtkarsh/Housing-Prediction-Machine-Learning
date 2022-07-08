@@ -2,6 +2,8 @@ training_pipeline_config:
   pipeline_name: housing
   artifact_dir: artifact
 
+
+
 data_ingestion_config:
   dataset_download_url: https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
   raw_data_dir: raw_data
@@ -12,12 +14,13 @@ data_ingestion_config:
 
 
 
-
 data_validation_config:
   schema_dir: config
   schema_file_name: schema.yaml
-  report_file_name: report.json
+  report_file_name: report.json 
   report_page_file_name: report.html
+
+
 
 data_transformation_config:
   add_bedroom_per_room: true
@@ -27,10 +30,13 @@ data_transformation_config:
   preprocessing_dir: preprocessed
   preprocessed_object_file_name: preprocessed.pkl
   
+
+
 model_trainer_config:
   trained_model_dir: trained_model
   model_file_name: model.pkl
   base_accuracy: 0.6
+
 
 
 model_evaluation_config:

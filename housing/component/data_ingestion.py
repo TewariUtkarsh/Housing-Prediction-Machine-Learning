@@ -1,5 +1,3 @@
-from cmath import log
-from doctest import Example
 from housing.entity.config_entity import DataIngestionConfig
 from housing.logger import logging
 from housing.exception_handler import HousingException

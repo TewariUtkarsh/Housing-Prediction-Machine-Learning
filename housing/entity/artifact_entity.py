@@ -5,7 +5,7 @@ DataIngestionArtifact = namedtuple("DataIngestionArtifact",
 
 
 DataValidationArtifact = namedtuple("DataValidationArtifact",
-[])
+["schema_file_path", "report_file_path", "report_page_file_path", "is_validated", "message"])
 
 
 DataTransformationArtifact = namedtuple("DataTransformationArtifact",
