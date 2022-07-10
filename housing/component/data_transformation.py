@@ -45,6 +45,7 @@ class FeatureGenerator(BaseEstimator, TransformerMixin):
         total_bedrooms_ix: int index number of bedrooms columns
         """
         try:
+		# Checking if any custom column is passed, other wise assign config of existing columns
             self.columns = columns
             if self.columns is not None:
                 total_rooms_ix = self.columns.index(COLUMN_TOTAL_ROOMS)

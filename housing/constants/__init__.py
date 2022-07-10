@@ -52,7 +52,7 @@ DATA_TRANSFORMATION_ARTIFACT_DIR = "data_transformation"
 DATASET_SCHEMA_COLUMNS_KEY=  "columns"
 NUMERICAL_COLUMN_KEY="numerical_columns"
 CATEGORICAL_COLUMN_KEY = "categorical_columns"
-DOMAIN_VALUE_KEY = "domain"
+DOMAIN_VALUE_KEY = "domain_value"
 # config[categorical column] = OCEAN_PROXIMITY
 
 COLUMN_TOTAL_ROOMS = "total_rooms"

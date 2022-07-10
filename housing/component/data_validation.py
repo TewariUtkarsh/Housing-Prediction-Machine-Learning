@@ -87,14 +87,51 @@ class DataValidation:
 
             schema_file_info = read_yaml_file(self.data_validation_config.schema_file_path)
 
-            base_column_names = schema_file_info[DATASET_SCHEMA_COLUMNS_KEY].keys()
+            base_column_names = list(schema_file_info[DATASET_SCHEMA_COLUMNS_KEY].keys())
+            base_number_of_columns = len(base_column_names)
 
-            # base_number_of_columns = 
+            train_df_columns = list(train_df.columns)
+            train_df_number_of_columns = len(train_df_columns)
 
-            base_domain_value = schema_file_info[CATEGORICAL_COLUMN_KEY]
+            test_df_columns = list(test_df.columns)
+            test_df_number_of_columns = len(test_df_columns)
+
+            base_categorical_column = schema_file_info[CATEGORICAL_COLUMN_KEY][0]
+            # base_target_column = schema_file_info[TARGET_COLUMN_KEY]
+            base_domain_values = schema_file_info[DOMAIN_VALUE_KEY][base_categorical_column].sort()
+
+
+
+            train_df_domain_values = list(train_df[base_categorical_column].unique()).sort()
+            test_df_domain_values = list(test_df[base_categorical_column].unique()).sort()
+
+            if train_df_number_of_columns == base_number_of_columns:
+                if train_df_columns == base_column_names:
+                    if train_df_domain_values == base_domain_values:
+                        validation_status = True
+                    else:
+                        raise Exception(f"Domain Values not matched for training file:[{self.data_ingestion_artifact.train_flie_path}]")
+                else:
+                    raise Exception(f"Column names not matched for training file:[{self.data_ingestion_artifact.train_flie_path}]")
+            else:
+                raise Exception(f"Number of Columns not matched for training file:[{self.data_ingestion_artifact.train_flie_path}]")
 
             
+            if test_df_number_of_columns == base_number_of_columns:
+                if test_df_columns == base_column_names:
+                    if test_df_domain_values == base_domain_values:
+                        validation_status = True
+                    else:
+                        validation_status = False
+                        raise Exception(f"Domain Values not matched for training file:[{self.data_ingestion_artifact.test_flie_path}]")
+                else:
+                    validation_status = False
+                    raise Exception(f"Column names not matched for training file:[{self.data_ingestion_artifact.test_flie_path}]")
+            else:
+                validation_status = False
+                raise Exception(f"Number of Columns not matched for training file:[{self.data_ingestion_artifact.test_flie_path}]")
 
+            # categorical_column
 
             # Task:
             # 1. col num
@@ -117,7 +154,7 @@ class DataValidation:
 
             # self.data_ingestion_artifact.
             # self.data_validation_config.schema_file_path
-            validation_status = True
+            
 
 
 

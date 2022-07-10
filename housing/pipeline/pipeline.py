@@ -92,7 +92,7 @@ class Pipeline:
                 data_ingestion_artifact=data_ingestion_artifact,
                 data_validation_artifact=data_validation_artifact
             )
-            
+            print(data_transformation_artifact)
 
         except Exception as e:
             raise HousingException(e, sys) from e
