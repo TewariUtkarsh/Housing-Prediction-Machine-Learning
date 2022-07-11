@@ -1,7 +1,7 @@
 import os
 import sys
 
-from housing.exception import HousingException
+from housing.exception_handler import HousingException
 from housing.util.util import load_object
 
 import pandas as pd

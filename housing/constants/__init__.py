@@ -86,3 +86,6 @@ MODEL_PATH_KEY = "model_path"
 
 EXPERIMENT_DIR_NAME="experiment"
 EXPERIMENT_FILE_NAME="experiment.csv"
+
+def get_current_time_stamp():
+    return f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"

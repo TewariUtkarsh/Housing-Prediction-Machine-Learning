@@ -1,4 +1,4 @@
-from housing.exception import HousingException
+from housing.exception_handler import HousingException
 import sys
 from housing.logger import logging
 from typing import List
