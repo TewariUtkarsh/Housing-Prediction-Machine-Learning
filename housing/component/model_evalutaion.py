@@ -56,16 +56,20 @@ class ModelEvaluation:
             
             
             previous_best_model = None
+            
+            # loading previous model if present
             if BEST_MODEL_KEY in model_eval_content:
                 previous_best_model = model_eval_content[BEST_MODEL_KEY]
 
             logging.info(f"Previous eval result: {model_eval_content}")
+            # updating best model
             eval_result = {
                 BEST_MODEL_KEY: {
                     MODEL_PATH_KEY: model_evaluation_artifact.evaluated_model_path,
                 }
             }
 
+            # Creating history key if previous model present
             if previous_best_model is not None:
                 model_history = {self.model_evaluation_config.time_stamp: previous_best_model}
                 if HISTORY_KEY not in model_eval_content:
