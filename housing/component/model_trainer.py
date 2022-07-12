@@ -73,6 +73,7 @@ class ModelTrainer:
             logging.info(f"Expected accuracy: {base_accuracy}")
 
             logging.info(f"Initiating operation model selecttion")
+            # Getting best model of Linear and Random individually by performing Grid Search CV on train dataset
             best_model = model_factory.get_best_model(X=x_train,y=y_train,base_accuracy=base_accuracy)
             
             logging.info(f"Best model found on training dataset: {best_model}")
@@ -82,6 +83,7 @@ class ModelTrainer:
             
             model_list = [model.best_model for model in grid_searched_best_model_list ]
             logging.info(f"Evaluation all trained model on training and testing dataset both")
+            # Now evauating both the best grid searched models on train and test data to choose among the one
             metric_info:MetricInfoArtifact = evaluate_regression_model(model_list=model_list,X_train=x_train,y_train=y_train,X_test=x_test,y_test=y_test,base_accuracy=base_accuracy)
 
             logging.info(f"Best found model on both training and testing dataset.")

@@ -179,6 +179,7 @@ class ModelFactory:
             print(property_data)
             for key, value in property_data.items():
                 logging.info(f"Executing:$ {str(instance_ref)}.{key}={value}")
+                # class_object.attribute = value
                 setattr(instance_ref, key, value)
             return instance_ref
         except Exception as e:
@@ -248,7 +249,7 @@ class ModelFactory:
 
     def get_initialized_model_list(self) -> List[InitializedModelDetail]:
         """
-        This function will return a list of model details.
+        This function will return a list of model details. which is a list of tuple for each model
         return List[ModelDetail]
         """
         try:
@@ -259,6 +260,7 @@ class ModelFactory:
                 model_obj_ref = ModelFactory.class_for_name(module_name=model_initialization_config[MODULE_KEY],
                                                             class_name=model_initialization_config[CLASS_KEY]
                                                             )
+                # using importlib.import_lib and getattr
                 model = model_obj_ref()
                 
                 if PARAM_KEY in model_initialization_config:
@@ -355,13 +357,17 @@ class ModelFactory:
     def get_best_model(self, X, y,base_accuracy=0.6) -> BestModel:
         try:
             logging.info("Started Initializing model from config file")
+            # Here we just create named tuple containing model_serial_name, initialized_model_object with updated attribute/property, module_package_name, model_name
+            # model just initialized and not trained
             initialized_model_list = self.get_initialized_model_list()
             logging.info(f"Initialized model: {initialized_model_list}")
+            # Here for every model initialized we perform grid search cv
             grid_searched_best_model_list = self.initiate_best_parameter_search_for_initialized_models(
                 initialized_model_list=initialized_model_list,
                 input_feature=X,
                 output_feature=y
             )
+            # Till here we have a list 'grid_searched_best_model_list' which contains best linear_reg model(model_0) and best random_forest model(model_1) after performing grid search individually now we have to choose between both
             return ModelFactory.get_best_model_from_grid_searched_best_model_list(grid_searched_best_model_list,
                                                                                   base_accuracy=base_accuracy)
         except Exception as e:

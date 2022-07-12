@@ -13,7 +13,13 @@ from housing.entity.model_factory import evaluate_regression_model
 
 
 class ModelEvaluation:
+    """
+    AIM: If in future we change dataset or change config of model then
+         we can compare it with the existing model based on the accuracy thus performing safe and efficient model retraining 
+    """
 
+    # Here we need DataIngestion and DataValidation artifacts becoz our model is combination of both preprocessing and prediction
+    # so we will predict and evaluate based on the ingested train and test file along with schema file 
     def __init__(self, model_evaluation_config: ModelEvaluationConfig,
                  data_ingestion_artifact: DataIngestionArtifact,
                  data_validation_artifact: DataValidationArtifact,
@@ -28,6 +34,12 @@ class ModelEvaluation:
             raise HousingException(e, sys) from e
 
     def get_best_model(self):
+        """
+        NAME CONFLICT: Here best_model= productionized_model because there is another function in model_factory with same name
+        Function to check and get the model in production
+        Case 1:(first time) file not there or empty file there
+        Case 2: 
+        """
         try:
             model = None
             model_evaluation_file_path = self.model_evaluation_config.model_evaluation_file_path
@@ -49,8 +61,13 @@ class ModelEvaluation:
             raise HousingException(e, sys) from e
 
     def update_evaluation_report(self, model_evaluation_artifact: ModelEvaluationArtifact):
+        """
+        checking and updating the model_eval.yaml with train model based on the presence of best model
+        """
         try:
             eval_file_path = self.model_evaluation_config.model_evaluation_file_path
+            # here we are directly reading the yaml file and not checking its existence because in initiate model_evalutaion,
+            # we are calling get_best_model before this function so it will automatically create an empty file if no model found
             model_eval_content = read_yaml_file(file_path=eval_file_path)
             model_eval_content = dict() if model_eval_content is None else model_eval_content
             
@@ -70,14 +87,16 @@ class ModelEvaluation:
             }
 
             # Creating history key if previous model present
+            # else just update the best model content and no need of history key
             if previous_best_model is not None:
+                # update function adds the key or updates/overwrites the existing one
                 model_history = {self.model_evaluation_config.time_stamp: previous_best_model}
                 if HISTORY_KEY not in model_eval_content:
                     history = {HISTORY_KEY: model_history}
                     eval_result.update(history)
                 else:
                     model_eval_content[HISTORY_KEY].update(model_history)
-
+            # finally updating the best model key values
             model_eval_content.update(eval_result)
             logging.info(f"Updated eval result:{model_eval_content}")
             write_yaml_file(file_path=eval_file_path, data=model_eval_content)
@@ -126,6 +145,7 @@ class ModelEvaluation:
                 logging.info(f"Model accepted. Model eval artifact {model_evaluation_artifact} created")
                 return model_evaluation_artifact
 
+            # if some model is present then we will initiate the comparison part
             model_list = [model, trained_model_object]
 
             metric_info_artifact = evaluate_regression_model(model_list=model_list,
@@ -138,6 +158,10 @@ class ModelEvaluation:
             logging.info(f"Model evaluation completed. model metric artifact: {metric_info_artifact}")
 
             if metric_info_artifact is None:
+                """ 
+                When we update the base accuracy in future and both models fail to achieve base accuracy then metric info = None
+                Otherwise we store the info of the better model in metric info based on the index number
+                """
                 response = ModelEvaluationArtifact(is_model_accepted=False,
                                                    evaluated_model_path=trained_model_file_path
                                                    )

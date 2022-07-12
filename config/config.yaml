@@ -42,6 +42,10 @@ model_trainer_config:
 
 
 
+# best model: model_file_path: "D:\\"
+# It contains the details(path) about the current working best model and prev model details too
+# Current working best model will be used for evaluation(comparison) with the model we will train in the pipeline
+#  In simple terms, if any model is in production(checked using model_evaluation.yaml), we will load that model and compare it with the newly trained model
 model_evaluation_config:
   model_evaluation_file_name: model_evaluation.yaml
   
