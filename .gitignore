@@ -134,6 +134,8 @@ dmypy.json
 info.txt
 test.py
 housing/artifact
+notebook/
+study/
 
 
 

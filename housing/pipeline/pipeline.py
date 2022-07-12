@@ -26,7 +26,12 @@ Experiment = namedtuple("Experiment", ["experiment_id", "initialization_timestam
                                        "experiment_file_path", "accuracy", "is_model_accepted"])
 
 class Pipeline(Thread):
-
+    """
+    Creating a branch of main thread which will perform training on separate thread and is independent of the main thread
+    so that when training starts user can still interact with the website instead of the page to load and heroku/cloud will crash
+    and it is verified by experiment that only 1 train thread is created at a time as it is a class instance so no new thread for same class instance generated 
+    so it share same address space in the entire class and entire execution
+    """
     def __init__(self, config: Configuration=Configuration()) -> None:
         
         try: 
@@ -225,7 +230,7 @@ class Pipeline(Thread):
             raise HousingException(e, sys) from e
 
     @classmethod
-    def get_experiments_status(cls, limit: int = 5) -> pd.DataFrame:
+    def get_experiments_status(cls, limit: int = 6) -> pd.DataFrame:
         try:
             if os.path.exists(Pipeline.experiment_file_path):
                 df = pd.read_csv(Pipeline.experiment_file_path)
