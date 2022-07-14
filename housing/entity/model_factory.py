@@ -34,6 +34,7 @@ BestModel = namedtuple("BestModel", ["model_serial_number",
                                      "best_parameters",
                                      "best_score", ])
 
+# Details about the best of the best model
 MetricInfoArtifact = namedtuple("MetricInfoArtifact",
                                 ["model_name", "model_object", "train_rmse", "test_rmse", "train_accuracy",
                                  "test_accuracy", "model_accuracy", "index_number"])
@@ -156,6 +157,11 @@ def get_sample_model_config_yaml_file(export_dir: str):
 
 class ModelFactory:
     def __init__(self, model_config_path: str = None,):
+        """
+        Responsible for initializing and configuring every model with required parameters and 
+        along with performing grid search
+        also evaluate the models and update the model_evaluation.yaml
+        """
         try:
             self.config: dict = ModelFactory.read_params(model_config_path)
 
@@ -355,6 +361,9 @@ class ModelFactory:
             raise HousingException(e, sys) from e
 
     def get_best_model(self, X, y,base_accuracy=0.6) -> BestModel:
+        """
+        Updates the initialized model list and grid searched best models
+        """
         try:
             logging.info("Started Initializing model from config file")
             # Here we just create named tuple containing model_serial_name, initialized_model_object with updated attribute/property, module_package_name, model_name

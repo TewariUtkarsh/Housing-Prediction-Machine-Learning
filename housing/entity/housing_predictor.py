@@ -45,6 +45,9 @@ class HousingData:
 
     def get_housing_data_as_dict(self):
         try:
+            """
+            Passing each input feature as list so that we can perform batch prediction
+            """
             input_data = {
                 "longitude": [self.longitude],
                 "latitude": [self.latitude],

@@ -35,6 +35,7 @@ class ModelEvaluation:
 
     def get_best_model(self):
         """
+        Basic Description: Loads the current running model
         NAME CONFLICT: Here best_model= productionized_model because there is another function in model_factory with same name
         Function to check and get the model in production
         Case 1:(first time) file not there or empty file there
@@ -123,13 +124,13 @@ class ModelEvaluation:
             schema_content = read_yaml_file(file_path=schema_file_path)
             target_column_name = schema_content[TARGET_COLUMN_KEY]
 
-            # target_column
+            # target_column, y_train, y_test
             logging.info(f"Converting target column into numpy array.")
             train_target_arr = np.array(train_dataframe[target_column_name])
             test_target_arr = np.array(test_dataframe[target_column_name])
             logging.info(f"Conversion completed target column into numpy array.")
 
-            # dropping target column from the dataframe
+            # dropping target column from the dataframe, x_train, x_test
             logging.info(f"Dropping target column from the dataframe.")
             train_dataframe.drop(target_column_name, axis=1, inplace=True)
             test_dataframe.drop(target_column_name, axis=1, inplace=True)

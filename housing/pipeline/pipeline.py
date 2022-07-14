@@ -30,12 +30,18 @@ class Pipeline(Thread):
     Creating a branch of main thread which will perform training on separate thread and is independent of the main thread
     so that when training starts user can still interact with the website instead of the page to load and heroku/cloud will crash
     and it is verified by experiment that only 1 train thread is created at a time as it is a class instance so no new thread for same class instance generated 
-    so it share same address space in the entire class and entire execution
+    so it share same address space in the entire class and entire execution.
+
+    So that user can easily access the website even if the training is happening in the background
+
+    we can't start  a new pipeline object if running_status=True
     """
     def __init__(self, config: Configuration=Configuration()) -> None:
         
         try: 
-            
+            """
+            Starts the pipeline only when a config file is present at ./config/config.yaml
+            """
             os.makedirs(config.training_pipeline_config.artifact_dir, exist_ok=True)
             Pipeline.experiment_file_path=os.path.join(config.training_pipeline_config.artifact_dir,EXPERIMENT_DIR_NAME, EXPERIMENT_FILE_NAME)
             super().__init__(daemon=False, name="pipeline")
@@ -139,6 +145,10 @@ class Pipeline(Thread):
     def run_pipeline(self):
         try:
             if Pipeline.experiment.running_status:
+                """
+                as pipeline.experiment is class instance so it will be same for all processes thus restricting its creation again
+                also we dont want the same pipeline to execute again so we check the running_status
+                """
                 logging.info("Pipeline is already running")
                 return Pipeline.experiment
             # data ingestion
@@ -208,6 +218,11 @@ class Pipeline(Thread):
 
     def save_experiment(self):
         try:
+            """
+            generate dictionary from experiment named tuple
+            convert dict to df
+            save df
+            """
             if Pipeline.experiment.experiment_id is not None:
                 experiment = Pipeline.experiment
                 experiment_dict = experiment._asdict()
